@@ -8,9 +8,9 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
-| v1 | [`v1`](https://github.com/chainguard-actions/addnab--docker-run-action/tree/v1) | — |
-| v2 | [`v2`](https://github.com/chainguard-actions/addnab--docker-run-action/tree/v2) | — |
-| v3 | [`v3`](https://github.com/chainguard-actions/addnab--docker-run-action/tree/v3) | — |
+| v1 | [`v1`](https://github.com/chainguard-actions/addnab-docker-run-action/tree/v1) | — |
+| v2 | [`v2`](https://github.com/chainguard-actions/addnab-docker-run-action/tree/v2) | — |
+| v3 | [`v3`](https://github.com/chainguard-actions/addnab-docker-run-action/tree/v3) | — |
 
 ## Privacy
 
