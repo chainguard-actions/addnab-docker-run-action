@@ -1,4 +1,4 @@
-name: Test registry, username, and password inputs
+name: Test registry credentials inputs
 on:
   workflow_dispatch:
 jobs:
@@ -10,11 +10,11 @@ jobs:
         uses: .
         with:
           image: alpine:3.18
-          run: echo "running with registry inputs"
+          run: echo "running with registry credentials provided"
           registry: docker.io
           username: testuser
           password: testpassword
       - name: Assert action completed successfully
         run: |
-          echo "Action with registry inputs completed"
+          echo "Action with registry credentials completed"
           echo "PASS"

@@ -10,8 +10,8 @@ jobs:
         uses: .
         with:
           image: alpine:3.18
-          run: echo "MY_VAR is $MY_VAR"
-          options: --env MY_VAR=hello_from_options
+          run: echo "TEST_VAR is $TEST_VAR"
+          options: --env TEST_VAR=hello_options
       - name: Assert action completed successfully
         run: |
           echo "Action with options completed without error"
