@@ -1,4 +1,4 @@
-name: Test basic docker run
+name: Test docker options (env vars)
 on:
   workflow_dispatch:
 jobs:
@@ -10,7 +10,14 @@ jobs:
         uses: .
         with:
           image: alpine:3.18
-          run: echo "hello from docker"
+          options: -e MY_TEST_VAR=hello_from_options
+          run: |
+            echo "MY_TEST_VAR=$MY_TEST_VAR"
+            if [ "$MY_TEST_VAR" != "hello_from_options" ]; then
+              echo "FAIL: env var not set correctly"
+              exit 1
+            fi
+            echo "PASS: env var is set correctly"
       - name: Assert step succeeded
         run: |
           echo "Step outcome: ${{ steps.action.outcome }}"
