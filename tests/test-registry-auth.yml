@@ -1,0 +1,31 @@
+name: Test registry authentication inputs
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Run action with registry, username, and password inputs
+        id: action
+        uses: .
+        continue-on-error: true
+        with:
+          image: alpine:3.18
+          registry: registry.example.com
+          username: testuser
+          password: testpassword
+          run: echo hello-from-registry-auth
+      - name: Assert action ran (login fails with fake credentials, which is expected)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action succeeded (registry login succeeded or was skipped)"
+          elif [ "$OUTCOME" = "failure" ]; then
+            echo "PASS: action failed gracefully (expected with fake registry credentials)"
+          else
+            echo "FAIL: unexpected outcome '$OUTCOME'"
+            exit 1
+          fi

@@ -1,4 +1,4 @@
-name: Test basic usage - run command in container
+name: Test docker run options - pass environment variables
 on:
   workflow_dispatch:
 jobs:
@@ -6,17 +6,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Run simple echo command in alpine container
+      - name: Run command with docker options (env var) in alpine container
         id: action
         uses: .
         with:
           image: alpine:3.18
-          run: echo hello-from-docker
+          options: -e MY_VAR=hello_world
+          run: |
+            if [ "$MY_VAR" = "hello_world" ]; then
+              echo "env-var-ok"
+            else
+              echo "env-var-missing"
+              exit 1
+            fi
       - name: Assert step succeeded
         run: |
           echo "outcome: ${{ steps.action.outcome }}"
           if [ "${{ steps.action.outcome }}" != "success" ]; then
-            echo "FAIL: expected step to succeed"
+            echo "FAIL: expected step to succeed with env var option"
             exit 1
           fi
           echo "PASS"
