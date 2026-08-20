@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test multiline run command
 on:
   workflow_dispatch:
 jobs:
@@ -6,17 +6,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Run simple echo command in alpine container
+      - name: Run multiple commands in container
         id: action
         uses: .
         with:
           image: alpine:3.18
-          run: echo hello-from-docker
+          run: |
+            echo "step one"
+            echo "step two"
+            echo "step three"
       - name: Assert step succeeded
         run: |
           echo "Step outcome: ${{ steps.action.outcome }}"
           if [ "${{ steps.action.outcome }}" != "success" ]; then
-            echo "FAIL: expected action to succeed"
+            echo "FAIL: expected multiline run to succeed"
             exit 1
           fi
-          echo "PASS: action ran successfully"
+          echo "PASS: multiline run succeeded"

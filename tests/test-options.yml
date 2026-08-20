@@ -1,4 +1,4 @@
-name: Test with options input
+name: Test docker run options
 on:
   workflow_dispatch:
 jobs:
@@ -6,13 +6,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - id: action
+      - name: Run command with environment variable option
+        id: action
         uses: .
         with:
           image: alpine:3.18
-          run: echo "hello with options"
-          options: --env MY_VAR=test_value
-      - name: Assert action completed successfully
+          options: -e MY_TEST_VAR=hello_options
+          run: |
+            if [ "$MY_TEST_VAR" = "hello_options" ]; then
+              echo "env var is set correctly"
+            else
+              echo "env var not set: $MY_TEST_VAR"
+              exit 1
+            fi
+      - name: Assert step succeeded
         run: |
-          echo "Action completed with options"
-          echo "PASS"
+          echo "Step outcome: ${{ steps.action.outcome }}"
+          if [ "${{ steps.action.outcome }}" != "success" ]; then
+            echo "FAIL: expected action to succeed with options"
+            exit 1
+          fi
+          echo "PASS: action ran successfully with docker options"
